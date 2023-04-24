@@ -2,7 +2,7 @@ import * as jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 import { userRepository } from "../repositories/user-repository";
-import { duplicatedEmailError, invalidCredentialsError } from "../errors/users-error";
+import { duplicatedEmailError, invalidCredentialsError, userError } from "../errors/users-error";
 
 async function createUser(name: string, email: string, password: string) {
     await uniqueEmail(email);
@@ -39,8 +39,33 @@ async function getUserOrFail(email: string) {
     return user;
 };
 
+async function getAllUsers() {
+    return await userRepository.getAllUsers();
+};
+
+async function getUserById(id: number) {
+    const user = await userRepository.getUserById(id);
+    if (!user) throw userError();
+    return user;
+};
+
+async function updateUser(id: number, name: string, email: string, password: string) {
+    const user = await userRepository.getUserById(id);
+    if (!user) throw userError();
+    return await userRepository.updateUser(id, name, email, password);
+};
+
+async function deleteUser(id: number) {
+    const user = await userRepository.getUserById(id);
+    if (!user) throw userError();
+    return await userRepository.deleteUser(id);
+};
 
 export const userService = {
     createUser,
-    userLogin
+    userLogin,
+    getAllUsers,
+    getUserById,
+    updateUser,
+    deleteUser
 };
