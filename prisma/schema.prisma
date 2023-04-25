@@ -8,8 +8,33 @@ datasource db {
 }
 
 model users {
-  id       Int    @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   name     String
-  email    String @unique
+  email    String    @unique
   password String
+  clients  clients[]
+}
+
+model address {
+  id                               Int       @id @default(autoincrement())
+  street                           String    @db.VarChar(100)
+  number                           String    @db.VarChar(10)
+  complement                       String?   @db.VarChar(100)
+  city                             String    @db.VarChar(100)
+  state                            String    @db.VarChar(2)
+  cep                              String    @db.VarChar(8)
+  clients_clients_addressToaddress clients[] @relation("clients_addressToaddress")
+}
+
+model clients {
+  id                               Int      @id @default(autoincrement())
+  user                             Int
+  name                             String   @db.VarChar(100)
+  birthday                         DateTime @db.Date
+  cpf                              String   @db.VarChar(11)
+  phone                            String   @db.VarChar(11)
+  excluded                         Boolean? @default(false)
+  address                          Int
+  address_clients_addressToaddress address  @relation("clients_addressToaddress", fields: [address], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users                            users    @relation(fields: [user], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
