@@ -55,7 +55,7 @@ export async function getOrderByIdCLient(req: Request, res: Response) {
 export async function putClient(req: Request, res: Response) {
     const id = parseInt(req.params.id)
     try {
-        const client = await clientsService.putClient(id);
+        const client = await clientsService.putClient(id, { ...req.body });
         res.status(200).send(client);
     } catch (error) {
         res.sendStatus(500);

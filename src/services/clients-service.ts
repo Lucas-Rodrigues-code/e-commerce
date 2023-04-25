@@ -1,3 +1,4 @@
+import { clientAndAdress } from "@/protocols";
 import { clientsRepository } from "../repositories/clients-repository";
 
 export async function getAllClients() {
@@ -24,10 +25,10 @@ export async function orderByIdCLient(id: number, order: string) {
     return await clientsRepository.orderByIdCLient(id, order);
 };
 
-export async function putClient(id: number) {
+export async function putClient(id: number, params: clientAndAdress) {
     const client = await clientsRepository.getClientById(id);
     if (!client) throw new Error("There is no clients with that id!");
-    return await clientsRepository.putClient(id);
+    return await clientsRepository.putClient(id, params);
 };
 
 export const clientsService = {
