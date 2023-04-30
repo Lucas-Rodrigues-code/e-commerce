@@ -28,13 +28,13 @@ model address {
 
 model clients {
   id                               Int      @id @default(autoincrement())
-  user                             Int
+  user                             Int?     @unique
   name                             String   @db.VarChar(100)
   birthday                         DateTime @db.Date
-  cpf                              String   @db.VarChar(11)
+  cpf                              String   @unique @db.VarChar(11)
   phone                            String   @db.VarChar(11)
   excluded                         Boolean? @default(false)
   address                          Int
   address_clients_addressToaddress address  @relation("clients_addressToaddress", fields: [address], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users                            users    @relation(fields: [user], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users                            users?   @relation(fields: [user], references: [id], onDelete: SetNull, onUpdate: NoAction)
 }
