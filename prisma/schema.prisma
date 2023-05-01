@@ -8,33 +8,95 @@ datasource db {
 }
 
 model users {
-  id       Int       @id @default(autoincrement())
-  name     String
-  email    String    @unique
-  password String
-  clients  clients[]
+  id          Int       @id @default(autoincrement())
+  name        String?   @db.VarChar(50)
+  email       String?   @unique @db.VarChar
+  password    String?   @db.VarChar
+  client_id   Int?      @unique
+  permission  String?   @default("cliente") @db.VarChar(12)
+  reviews     reviews[]
+  users       users?    @relation("usersTousers", fields: [client_id], references: [id], onUpdate: NoAction)
+  other_users users?    @relation("usersTousers")
 }
 
 model address {
-  id                               Int       @id @default(autoincrement())
-  street                           String    @db.VarChar(100)
-  number                           String    @db.VarChar(10)
-  complement                       String?   @db.VarChar(100)
-  city                             String    @db.VarChar(100)
-  state                            String    @db.VarChar(2)
-  cep                              String    @db.VarChar(8)
-  clients_clients_addressToaddress clients[] @relation("clients_addressToaddress")
+  id         Int      @id @default(autoincrement())
+  street     String?  @db.VarChar(100)
+  number     String?  @db.VarChar(10)
+  complement String?  @db.VarChar(100)
+  city       String?  @db.VarChar(100)
+  state      String?  @db.VarChar(2)
+  cep        String?  @db.VarChar(8)
+  clients    clients?
 }
 
 model clients {
-  id                               Int      @id @default(autoincrement())
-  user                             Int?     @unique
-  name                             String   @db.VarChar(100)
-  birthday                         DateTime @db.Date
-  cpf                              String   @unique @db.VarChar(11)
-  phone                            String   @db.VarChar(11)
-  excluded                         Boolean? @default(false)
-  address                          Int
-  address_clients_addressToaddress address  @relation("clients_addressToaddress", fields: [address], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users                            users?   @relation(fields: [user], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  id         Int       @id @default(autoincrement())
+  name       String?   @db.VarChar(100)
+  birthday   DateTime? @db.Date
+  cpf        String?   @unique @db.VarChar(11)
+  phone      String?   @db.VarChar(11)
+  excluded   Boolean?  @default(false)
+  address_id Int?      @unique
+  address    address?  @relation(fields: [address_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model categories {
+  id           Int        @id @default(autoincrement())
+  name         String     @db.VarChar(50)
+  code         String     @db.VarChar(50)
+  availability Boolean?   @default(true)
+  created_at   DateTime?  @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime?  @default(now()) @db.Timestamptz(6)
+  products     products[]
+}
+
+model products {
+  id           Int          @id @default(autoincrement())
+  title        String       @db.VarChar(50)
+  availability Boolean?     @default(true)
+  description  String
+  photos       String[]
+  price        Decimal      @db.Decimal(10, 2)
+  promotion    Decimal?     @db.Decimal(10, 2)
+  sku          String       @db.VarChar(50)
+  category_id  Int
+  created_at   DateTime?    @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime?    @default(now()) @db.Timestamptz(6)
+  categories   categories   @relation(fields: [category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  reviews      reviews[]
+  variations   variations[]
+}
+
+model reviews {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(55)
+  text       String
+  score      Int?      @default(1)
+  product_id Int
+  user_id    Int
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+  products   products  @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model variations {
+  id               Int       @id @default(autoincrement())
+  code             String    @unique @db.VarChar(255)
+  name             String    @db.VarChar(255)
+  price            Decimal   @db.Decimal(10, 2)
+  promotion        Decimal?  @db.Decimal(10, 2)
+  photos           String[]
+  height_cm        Decimal   @db.Decimal(10, 2)
+  width_cm         Decimal   @db.Decimal(10, 2)
+  depth_cm         Decimal   @db.Decimal(10, 2)
+  weight_kg        Decimal   @db.Decimal(10, 2)
+  free_shipping    Boolean?  @default(false)
+  quantity         Int?      @default(0)
+  blocked_quantity Int?      @default(0)
+  product_id       Int
+  created_at       DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime? @default(now()) @db.Timestamptz(6)
+  products         products  @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
