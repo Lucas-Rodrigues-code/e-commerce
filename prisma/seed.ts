@@ -5,7 +5,7 @@ async function main() {
     await prisma.clients.deleteMany({})
     await prisma.address.deleteMany({})
     await prisma.users.deleteMany({})
-
+/* 
     const user = await prisma.users.create({
         data: {
             name: "lucas",
@@ -48,7 +48,7 @@ async function main() {
         }
     })
     console.log(client)
-
+*/
 }
 main()
     .then(() => {

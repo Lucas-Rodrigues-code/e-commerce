@@ -12,7 +12,6 @@ export async function getOrder() {
 
 export async function getClientByName(name: string) {
     const clients = await clientsRepository.getClientByName(name);
-
     if (clients.length === 0) throw new Error("There is no clients with that name!");
     return clients;
 };
@@ -28,16 +27,13 @@ export async function orderByIdCLient(id: number, order: string) {
 };
 
 export async function putClient(id: number, params: clientAndAdress) {
-
-    const client = await clientsRepository.getClientById(id);
-    if (!client) throw new Error("There is no clients with that id!");
+    const client = await getClientById(id);
 
     const cpf = await clientsRepository.findCpf(params);
     if (cpf) throw new Error("Is already a same cpf");
 
     return await clientsRepository.putClient(id, params);
 };
-
 
 export async function createClient(id: number, params: clientAndAdress) {
     const existingClient = await clientsRepository.findClienteByUser(id);
@@ -53,9 +49,8 @@ export async function createClient(id: number, params: clientAndAdress) {
 };
 
 export async function deleteClient(id: number) {
-    const client = await clientsRepository.getClientById(id);
-    if (!client) throw new Error("you are a not client yet ");
-    return await clientsRepository.deleteClient(id, client.user);
+    const client = await getClientById(id);
+    return await clientsRepository.deleteClient(id, client.id);
 };
 
 export const clientsService = {

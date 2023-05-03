@@ -2,7 +2,7 @@ import { clientAndAdress } from "@/protocols";
 import prisma from "../database/database";
 
 export async function getAllClients() {
-    return await prisma.clients.findMany({ include: { address_clients_addressToaddress: true } });
+    return await prisma.clients.findMany({ include: { address: true } });
 };
 
 export async function getOrder() {
@@ -18,7 +18,7 @@ export async function getClientByName(name: string) {
 export async function getClientById(id: number) {
     return await prisma.clients.findUnique({
         where: { id },
-        include: { address_clients_addressToaddress: true }
+        include: { address: true },
     });
 };
 
@@ -41,7 +41,7 @@ export async function putClient(id: number, params: clientAndAdress) {
             }
         }),
         prisma.address.update({
-            where: { id: adressId.address },
+            where: { id: adressId.address_id },
             data: {
                 street: params.street,
                 number: params.number,
@@ -70,13 +70,13 @@ export async function createClient(id: number, params: clientAndAdress) {
 
     const client = await prisma.clients.create({
         data: {
-            user: id,
             name: params.name,
             birthday: params.birthday,
             cpf: params.cpf,
             phone: params.phone,
-            address: adress.id
-        }
+            address_id: adress.id,
+        },
+
     })
 
     return {
@@ -103,23 +103,28 @@ export async function findCpf(params: clientAndAdress) {
 };
 
 export async function findClienteByUser(id: number) {
+    const clientId = await prisma.users.findFirst({
+        where: { id }
+
+    })
+    if (!clientId) return null
+
     return await prisma.clients.findFirst({
-        where: { user: id }
+        where: { id: clientId.id }
     })
 };
 
-export async function deleteClient(id: number,userId:number) {
-    console.log(userId)
+export async function deleteClient(id: number, userId: number) {
     return await prisma.$transaction([
         prisma.clients.update({
-            where:{id},
-            data:{
-                excluded:true
+            where: { id },
+            data: {
+                excluded: true
             }
         }),
 
         prisma.users.delete({
-            where:{id:userId}
+            where: { id: userId }
         })
     ])
 };

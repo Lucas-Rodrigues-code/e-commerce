@@ -7,54 +7,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id          Int       @id @default(autoincrement())
-  name        String?   @db.VarChar(50)
-  email       String?   @unique @db.VarChar
-  password    String?   @db.VarChar
-  client_id   Int?      @unique
-  permission  String?   @default("cliente") @db.VarChar(12)
-  reviews     reviews[]
-  users       users?    @relation("usersTousers", fields: [client_id], references: [id], onUpdate: NoAction)
-  other_users users?    @relation("usersTousers")
-}
-
 model address {
-  id         Int      @id @default(autoincrement())
-  street     String?  @db.VarChar(100)
-  number     String?  @db.VarChar(10)
-  complement String?  @db.VarChar(100)
-  city       String?  @db.VarChar(100)
-  state      String?  @db.VarChar(2)
-  cep        String?  @db.VarChar(8)
-  clients    clients?
-}
-
-model clients {
   id         Int       @id @default(autoincrement())
-  name       String?   @db.VarChar(100)
-  birthday   DateTime? @db.Date
-  cpf        String?   @unique @db.VarChar(11)
-  phone      String?   @db.VarChar(11)
-  excluded   Boolean?  @default(false)
-  address_id Int?      @unique
-  address    address?  @relation(fields: [address_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  street     String    @db.VarChar(100)
+  number     String    @db.VarChar(10)
+  complement String?   @db.VarChar(100)
+  city       String    @db.VarChar(100)
+  state      String    @db.VarChar(2)
+  cep        String    @db.VarChar(8)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+  clients    clients?
 }
 
 model categories {
   id           Int        @id @default(autoincrement())
   name         String     @db.VarChar(50)
   code         String     @db.VarChar(50)
-  availability Boolean?   @default(true)
+  availability Boolean    @default(true)
   created_at   DateTime?  @default(now()) @db.Timestamptz(6)
   updated_at   DateTime?  @default(now()) @db.Timestamptz(6)
   products     products[]
 }
 
+model clients {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(100)
+  birthday   DateTime  @db.Date
+  cpf        String    @unique @db.VarChar(11)
+  phone      String    @db.VarChar(11)
+  excluded   Boolean   @default(false)
+  address_id Int       @unique
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+  address    address   @relation(fields: [address_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users      users?
+}
+
 model products {
   id           Int          @id @default(autoincrement())
   title        String       @db.VarChar(50)
-  availability Boolean?     @default(true)
+  availability Boolean      @default(true)
   description  String
   photos       String[]
   price        Decimal      @db.Decimal(10, 2)
@@ -79,6 +72,19 @@ model reviews {
   updated_at DateTime? @default(now()) @db.Timestamptz(6)
   products   products  @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   users      users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(50)
+  email      String    @unique @db.VarChar
+  password   String    @db.VarChar
+  client_id  Int?      @unique
+  permission String    @default("client") @db.VarChar(12)
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @default(now()) @db.Timestamptz(6)
+  reviews    reviews[]
+  clients    clients?  @relation(fields: [client_id], references: [id], onUpdate: NoAction)
 }
 
 model variations {
