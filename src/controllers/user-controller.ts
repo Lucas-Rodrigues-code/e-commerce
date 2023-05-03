@@ -15,7 +15,7 @@ async function handleRequest(promise: Promise<any>, res: Response, successCode: 
 };
 
 export default async function createUser(req: Request, res: Response) {
-    const { name, email, password, phone } = req.body;
+    const { name, email, password, permission } = req.body;
     handleRequest(userService.createUser(name, email, password), res, 201);
 };
 

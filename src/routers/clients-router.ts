@@ -1,3 +1,4 @@
+import { authenticateRoleAdmin, authenticateToken } from "../middlewares/validationToken-middleware";
 import {
     createClient,
     deleteClient,
@@ -21,7 +22,7 @@ clientRouter
     .get("/admin/:id/:order", getOrderByIdCLient)
     .put("/admin/:id", putClient)
     // client
-    .get("/:id", getClientById)
+    .get("/:id", authenticateToken, authenticateRoleAdmin, getClientById)
     .post("/", createClient)
     .put("/:id", putClient)
     .delete("/:id", deleteClient)

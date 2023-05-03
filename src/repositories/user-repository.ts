@@ -5,7 +5,7 @@ async function createUser(name: string, email: string, hashedPassword: string) {
         data: {
             name,
             email,
-            password: hashedPassword,
+            password: hashedPassword
         }
     });
 };
@@ -19,7 +19,7 @@ async function findByEmail(email: string) {
 };
 
 async function getAllUsers() {
-    return await prisma.users.findMany({ select: { id: true, email: true, name: true } });
+    return await prisma.users.findMany({ select: { id: true, email: true, name: true, password: true } });
 };
 
 async function getUserById(id: number) {

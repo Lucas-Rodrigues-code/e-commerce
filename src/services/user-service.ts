@@ -23,7 +23,8 @@ async function userLogin(email: string, password: string) {
     const user = await getUserOrFail(email);
     await validatePasswordOrFail(password, user.password);
     const userId = user.id
-    const token = jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const role = user.permission
+    const token = jwt.sign({ userId, role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     return { user, token };
 };
 
