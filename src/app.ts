@@ -1,6 +1,7 @@
 import express, { json } from "express";
 import cors from "cors";
-import { userRouter, clientRouter } from "./routers";
+import { userRouter, clientRouter, categoriesRouter } from "./routers";
+
 
 const app = express();
 app
@@ -9,5 +10,6 @@ app
     .get("/health", (_req, res) => res.send("ok"))
     .use("/", userRouter)
     .use("/clients", clientRouter)
+    .use("/categories", categoriesRouter)
 
 export default app;
