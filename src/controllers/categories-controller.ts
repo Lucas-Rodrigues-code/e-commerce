@@ -14,3 +14,8 @@ async function handleRequest(promise: Promise<any>, res: Response, successCode: 
 export async function getAllCategory(req: Request, res: Response) {
     handleRequest(categoryService.getAllCategory(), res, 200);
 };
+
+export async function createCategory(req: Request, res: Response) {
+    const { name, code } = req.body;
+    handleRequest(categoryService.createCategory(name, code), res, 201);
+};
