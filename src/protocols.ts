@@ -12,3 +12,8 @@ export type clientAndAdress = {
     cep: string;
 }
 
+export type ApplicationError = {
+    name: string;
+    message: string;
+  };
+  
