@@ -29,3 +29,9 @@ export async function createCategory(req: Request, res: Response) {
     const { name, code } = req.body;
     handleRequest(categoryService.createCategory(name, code), res, 201);
 };
+
+export async function updateCategory(req: Request, res: Response) {
+    const { name, code, availability } = req.body;
+    const id = parseInt(req.params.id)
+    handleRequest(categoryService.updateCategory(id, name, code, availability), res, 201);
+};

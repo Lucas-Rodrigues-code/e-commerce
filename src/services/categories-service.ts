@@ -23,9 +23,18 @@ async function createCategory(name: string, code: string) {
     if (existCategoryName) throw new Error("Already exists a category with that name!!")
     return await categoryRepository.createCategory(name, code);
 };
+
+async function updateCategory(id: number, name: string, code: string, availability: boolean) {
+    if (name) {
+        const existCategoryName = await categoryRepository.findCategoryByName(name)
+        if (existCategoryName) throw new Error("Already exists a category with that name!!")
+    };
+    return await categoryRepository.updateCategory(id, name, code, availability);
+};
 export const categoryService = {
     getAllCategory,
     createCategory,
     getAllCategoryAvailable,
-    getCategoryById
+    getCategoryById,
+    updateCategory
 };

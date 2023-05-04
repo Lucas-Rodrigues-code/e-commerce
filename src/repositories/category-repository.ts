@@ -25,10 +25,22 @@ async function findCategoryByName(name: string) {
     return await prisma.categories.findFirst({ where: { name } });
 };
 
+async function updateCategory(id: number, name: string, code: string, availability: boolean) {
+    return await prisma.categories.update({
+        where: { id },
+        data:{
+            name,
+            code,
+            availability
+        }
+    })
+};
+
 export const categoryRepository = {
     getAllCategory,
     createCategory,
     findCategoryByName,
     getAllCategoryAvailable,
-    getCategoryById
+    getCategoryById,
+    updateCategory
 };
