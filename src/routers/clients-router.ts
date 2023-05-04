@@ -15,16 +15,16 @@ const clientRouter = Router();
 
 clientRouter
     // admim
-    .get("/admin", getAllClients)
-    .get("/search/:search/order", getOrder)
-    .get("/search/:search", getClientByName)
-    .get("/admin/:id", getClientById)
-    .get("/admin/:id/:order", getOrderByIdCLient)
-    .put("/admin/:id", putClient)
+    .get("/admin", authenticateToken, authenticateRoleAdmin, getAllClients)
+    .get("/search/:search/order", authenticateToken, authenticateRoleAdmin, getOrder)
+    .get("/search/:search", authenticateToken, authenticateRoleAdmin, getClientByName)
+    .get("/admin/:id", authenticateToken, authenticateRoleAdmin, getClientById)
+    .get("/admin/:id/:order", authenticateToken, authenticateRoleAdmin, getOrderByIdCLient)
+    .put("/admin/:id", authenticateToken, authenticateRoleAdmin, putClient)
     // client
-    .get("/:id", authenticateToken, authenticateRoleAdmin, getClientById)
-    .post("/", createClient)
-    .put("/:id", putClient)
-    .delete("/:id", deleteClient)
+    .get("/:id", authenticateToken, getClientById)
+    .post("/", authenticateToken, createClient)
+    .put("/:id", authenticateToken, putClient)
+    .delete("/:id", authenticateToken, deleteClient)
 
 export { clientRouter };
