@@ -31,7 +31,8 @@ async function updateProduct(id: number, params: Products) {
             price: params.price,
             promotion: params.promotion,
             sku: params.sku,
-            category_id: params.category_id
+            category_id: params.category_id,
+            availability:params.availability
         },
         include: { categories: { select: { name: true } } }
     })
@@ -45,10 +46,20 @@ async function deleteProduct(id: number) {
     return await prisma.products.delete({ where: { id } });
 };
 
+async function getAllProducts() {
+    return await prisma.products.findMany({ include: { categories: { select: { name: true } } } });
+};
+
+async function getAllProductAvailable() {
+    return await prisma.products.findMany({ where: { availability: true } });
+};
+
 export const productsRepository = {
     createProduct,
     findProductByTitle,
     updateProduct,
     findProductById,
-    deleteProduct
+    deleteProduct,
+    getAllProducts,
+    getAllProductAvailable
 };

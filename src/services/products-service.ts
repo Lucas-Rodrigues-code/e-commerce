@@ -25,8 +25,21 @@ async function deleteProduct(id: number) {
     return await productsRepository.deleteProduct(id);
 };
 
+async function getAllProducts() {
+    const products = await productsRepository.getAllProducts();
+    if (!products) throw notFoundError();
+    return products
+};
+
+async function getAllProductAvailable() {
+    const products = await productsRepository.getAllProductAvailable();
+    if (!products) throw notFoundError();
+    return products;
+};
 export const productService = {
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getAllProducts,
+    getAllProductAvailable
 };

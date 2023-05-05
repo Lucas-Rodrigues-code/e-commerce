@@ -22,8 +22,9 @@ export type Products = {
     description: string
     photos: string[];
     price: number;
-    promotion: number;
+    promotion?: number;
     sku: string;
     category_id: number;
+    availability?: boolean;
 };
 

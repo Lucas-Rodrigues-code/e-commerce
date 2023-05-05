@@ -27,3 +27,11 @@ export async function deleteProduct(req: Request, res: Response) {
     const id = parseInt(req.params.id);
     handleRequest(productService.deleteProduct(id), res, 200);
 };
+
+export async function getAllProducts(req: Request, res: Response) {
+    handleRequest(productService.getAllProducts(), res, 200);
+};
+
+export async function getAllProductAvailable(req: Request, res: Response) {
+    handleRequest(productService.getAllProductAvailable(), res, 200);
+};

@@ -17,5 +17,6 @@ export const updateProductySchema = Joi.object({
     price: Joi.number().strict(),
     promotion: Joi.number().strict(),
     sku: Joi.string().min(8),
-    category_id: Joi.number().strict()
+    category_id: Joi.number().strict(),
+    availability: Joi.boolean()
 })
