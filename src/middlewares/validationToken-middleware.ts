@@ -13,6 +13,9 @@ export async function authenticateToken(req: Request, res: Response, next: NextF
         res.locals.role = role;
         next();
     } catch (err) {
+        if (err.name === "TokenExpiredError") {
+            return res.status(401).send({ message: "Your session has expired. Please sign in again." });
+        }
         if (err.name === "JsonWebTokenError") {
             return res.status(401).send({ message: "You must be signed in to continue" });
         }

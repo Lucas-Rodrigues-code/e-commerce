@@ -1,6 +1,6 @@
 import createUser, { deleteUser, getAllUsers, getUserById, updateUser, userLogin } from "../controllers/user-controller";
 import { validateBodyCreateUser, validateBodyLoginUser, validateBodyUpdateUser } from "../middlewares/user-validation";
-import { authenticateRoleAdmin, authenticateToken } from "../middlewares/validationToken-middleware";
+import { authenticateToken } from "../middlewares/validationToken-middleware";
 
 import { Router } from "express";
 

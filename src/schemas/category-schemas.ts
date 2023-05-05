@@ -1,4 +1,3 @@
-import { join } from "@prisma/client/runtime";
 import Joi, { object } from "joi";
 
 export const createCategorySchema = Joi.object({

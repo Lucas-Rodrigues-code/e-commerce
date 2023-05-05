@@ -15,5 +15,15 @@ export type clientAndAdress = {
 export type ApplicationError = {
     name: string;
     message: string;
-  };
-  
+};
+
+export type Products = {
+    title: string;
+    description: string
+    photos: string[];
+    price: number;
+    promotion: number;
+    sku: string;
+    category_id: number;
+};
+
