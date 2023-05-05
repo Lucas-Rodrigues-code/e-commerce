@@ -16,3 +16,9 @@ export async function createProduct(req: Request, res: Response) {
     const body = req.body;
     handleRequest(productService.createProduct(body), res, 201);
 };
+
+export async function updateProduct(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
+    const body = req.body;
+    handleRequest(productService.updateProduct(id, body), res, 200);
+};
