@@ -43,11 +43,17 @@ export async function getProductByName(name: string) {
     return products;
 };
 
+export async function getProductById(id: number) {
+    const product = await productsRepository.getProductById(id);
+    if (!product) throw notFoundError();
+    return product;
+};
 export const productService = {
     createProduct,
     updateProduct,
     deleteProduct,
     getAllProducts,
     getAllProductAvailable,
-    getProductByName
+    getProductByName,
+    getProductById
 };

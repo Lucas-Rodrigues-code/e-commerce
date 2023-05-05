@@ -40,3 +40,8 @@ export async function getProductByName(req: Request, res: Response) {
     const name = req.params.search.toLowerCase();
     handleRequest(productService.getProductByName(name), res, 200);
 };
+
+export async function getProductById(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
+    handleRequest(productService.getProductById(id), res, 200);
+};

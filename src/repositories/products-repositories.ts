@@ -60,6 +60,12 @@ export async function getProductByName(name: string) {
     });
 };
 
+async function getProductById(id: number) {
+    return await prisma.products.findUnique({
+        where: { id },
+        include: { categories: true, reviews: true, variations: true }
+    });
+};
 
 export const productsRepository = {
     createProduct,
@@ -69,5 +75,6 @@ export const productsRepository = {
     deleteProduct,
     getAllProducts,
     getAllProductAvailable,
-    getProductByName
+    getProductByName,
+    getProductById
 };
