@@ -33,5 +33,10 @@ export async function createCategory(req: Request, res: Response) {
 export async function updateCategory(req: Request, res: Response) {
     const { name, code, availability } = req.body;
     const id = parseInt(req.params.id)
-    handleRequest(categoryService.updateCategory(id, name, code, availability), res, 201);
+    handleRequest(categoryService.updateCategory(id, name, code, availability), res, 200);
+};
+
+export async function deleteCategory(req: Request, res: Response) {
+    const id = parseInt(req.params.id)
+    handleRequest(categoryService.deleteCategory(id), res, 200);
 };

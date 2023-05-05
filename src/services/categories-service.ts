@@ -31,10 +31,18 @@ async function updateCategory(id: number, name: string, code: string, availabili
     };
     return await categoryRepository.updateCategory(id, name, code, availability);
 };
+
+async function deleteCategory(id: number) {
+    const category = await categoryRepository.getCategoryById(id);
+    if (!category) throw notFoundError();
+    return await categoryRepository.deleteCategory(id);
+};
+
 export const categoryService = {
     getAllCategory,
     createCategory,
     getAllCategoryAvailable,
     getCategoryById,
-    updateCategory
+    updateCategory,
+    deleteCategory
 };

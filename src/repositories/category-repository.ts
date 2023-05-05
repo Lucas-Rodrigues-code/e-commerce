@@ -28,12 +28,16 @@ async function findCategoryByName(name: string) {
 async function updateCategory(id: number, name: string, code: string, availability: boolean) {
     return await prisma.categories.update({
         where: { id },
-        data:{
+        data: {
             name,
             code,
             availability
         }
     })
+};
+
+async function deleteCategory(id: number) {
+    return await prisma.categories.delete({ where: { id } })
 };
 
 export const categoryRepository = {
@@ -42,5 +46,6 @@ export const categoryRepository = {
     findCategoryByName,
     getAllCategoryAvailable,
     getCategoryById,
-    updateCategory
+    updateCategory,
+    deleteCategory
 };
