@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 
 import { userRepository } from "../repositories/user-repository";
 import { duplicatedEmailError, invalidCredentialsError, userError } from "../errors/users-error";
+import { notFoundError } from "../errors/not-found-error";
 
 async function createUser(name: string, email: string, password: string) {
     await uniqueEmail(email);
@@ -36,29 +37,30 @@ async function validatePasswordOrFail(password: string, userPassword: string) {
 async function getUserOrFail(email: string) {
     const user = await userRepository.findByEmail(email);
     if (!user) throw invalidCredentialsError();
-
     return user;
 };
 
 async function getAllUsers() {
-    return await userRepository.getAllUsers();
+    const data = await userRepository.getAllUsers();
+    if (!data) throw notFoundError();
+    return data;
 };
 
 async function getUserById(id: number) {
     const user = await userRepository.getUserById(id);
-    if (!user) throw userError();
+    if (!user) throw notFoundError();
     return user;
 };
 
 async function updateUser(id: number, name: string, email: string, password: string) {
     const user = await userRepository.getUserById(id);
-    if (!user) throw userError();
+    if (!user) throw notFoundError();
     return await userRepository.updateUser(id, name, email, password);
 };
 
 async function deleteUser(id: number) {
     const user = await userRepository.getUserById(id);
-    if (!user) throw userError();
+    if (!user) throw notFoundError();
     return await userRepository.deleteUser(id);
 };
 

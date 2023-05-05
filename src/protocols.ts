@@ -10,7 +10,7 @@ export type clientAndAdress = {
     city: string;
     state: string;
     cep: string;
-}
+};
 
 export type ApplicationError = {
     name: string;

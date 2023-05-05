@@ -20,10 +20,9 @@ export async function authenticateToken(req: Request, res: Response, next: NextF
     }
 }
 
-
 export async function authenticateRoleAdmin(req: Request, res: Response, next: NextFunction) {
     if (res.locals.role !== "admin") {
-        return res.status(403).send({ message: "Você não tem permissão para acessar esta rota" });
+        return res.status(403).send({ message: "You do not have permission to access this route." });
     }
     next()
 }

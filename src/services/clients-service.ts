@@ -1,6 +1,7 @@
 import { clientAndAdress } from "@/protocols";
 import { clientsRepository } from "../repositories/clients-repository";
 import { userRepository } from "../repositories/user-repository";
+import { notFoundError } from "../errors/not-found-error";
 
 export async function getAllClients() {
     return await clientsRepository.getAllClients();
@@ -12,13 +13,13 @@ export async function getOrder() {
 
 export async function getClientByName(name: string) {
     const clients = await clientsRepository.getClientByName(name);
-    if (clients.length === 0) throw new Error("There is no clients with that name!");
+    if (clients.length === 0) throw notFoundError();
     return clients;
 };
 
 export async function getClientById(id: number) {
     const client = await clientsRepository.getClientById(id);
-    if (!client) throw new Error("There is no clients with that id!");
+    if (!client) throw notFoundError();
     return client;
 };
 
@@ -43,7 +44,7 @@ export async function createClient(id: number, params: clientAndAdress) {
     if (existingCpf) throw new Error("There is already a customer with the same CPF!");
 
     const user = await userRepository.getUserById(id);
-    if (!user) throw new Error("There is no user with that id!");
+    if (!user) throw notFoundError();
 
     return await clientsRepository.createClient(id, params);
 };

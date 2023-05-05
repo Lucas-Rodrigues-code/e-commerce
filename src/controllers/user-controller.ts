@@ -8,8 +8,7 @@ async function handleRequest(promise: Promise<any>, res: Response, successCode: 
     } catch (error) {
         if (error.name === "DuplicatedEmailError") return res.status(401).send(error.message);
         if (error.name === "InvalidCredentialsError") return res.status(401).send(error.message);
-        if (error.name === "userError") return res.status(401).send(error.message);
-        if (error.name === "Error") return res.status(401).send(error.message);
+        if (error.name === "NotFoundError") return res.status(404).send(error.message);
         res.status(500).send("Internal server error");
     };
 };
