@@ -19,7 +19,14 @@ async function updateProduct(id: number, params: Products) {
     return await productsRepository.updateProduct(id, params);
 };
 
+async function deleteProduct(id: number) {
+    const existProduct = await productsRepository.findProductById(id);
+    if (!existProduct) throw notFoundError();
+    return await productsRepository.deleteProduct(id);
+};
+
 export const productService = {
     createProduct,
-    updateProduct
+    updateProduct,
+    deleteProduct
 };

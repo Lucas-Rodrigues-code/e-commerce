@@ -22,3 +22,8 @@ export async function updateProduct(req: Request, res: Response) {
     const body = req.body;
     handleRequest(productService.updateProduct(id, body), res, 200);
 };
+
+export async function deleteProduct(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
+    handleRequest(productService.deleteProduct(id), res, 200);
+};

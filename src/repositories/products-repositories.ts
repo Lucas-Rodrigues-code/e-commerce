@@ -41,9 +41,14 @@ async function findProductById(id: number) {
     return await prisma.products.findUnique({ where: { id } });
 };
 
+async function deleteProduct(id: number) {
+    return await prisma.products.delete({ where: { id } });
+};
+
 export const productsRepository = {
     createProduct,
     findProductByTitle,
     updateProduct,
-    findProductById
+    findProductById,
+    deleteProduct
 };
