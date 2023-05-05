@@ -36,10 +36,18 @@ async function getAllProductAvailable() {
     if (!products) throw notFoundError();
     return products;
 };
+
+export async function getProductByName(name: string) {
+    const products = await productsRepository.getProductByName(name);
+    if (products.length === 0) throw notFoundError();
+    return products;
+};
+
 export const productService = {
     createProduct,
     updateProduct,
     deleteProduct,
     getAllProducts,
-    getAllProductAvailable
+    getAllProductAvailable,
+    getProductByName
 };

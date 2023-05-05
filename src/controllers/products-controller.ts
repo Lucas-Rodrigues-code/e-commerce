@@ -35,3 +35,8 @@ export async function getAllProducts(req: Request, res: Response) {
 export async function getAllProductAvailable(req: Request, res: Response) {
     handleRequest(productService.getAllProductAvailable(), res, 200);
 };
+
+export async function getProductByName(req: Request, res: Response) {
+    const name = req.params.search.toLowerCase();
+    handleRequest(productService.getProductByName(name), res, 200);
+};
