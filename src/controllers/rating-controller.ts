@@ -22,3 +22,8 @@ export async function createRating(req: Request, res: Response) {
     const { name, text, score, user_id } = req.body;
     handleRequest(ratingService.createRating(id, name, text, score, user_id), res, 201);
 };
+
+export async function deleteRating(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
+    handleRequest(ratingService.deleteRating(id), res, 200);
+};

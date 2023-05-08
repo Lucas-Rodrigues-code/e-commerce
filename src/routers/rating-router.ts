@@ -1,5 +1,5 @@
-import { authenticateToken } from "../middlewares/validationToken-middleware";
-import { createRating, getRatingByIdProduct } from "../controllers/rating-controller";
+import { authenticateRoleAdmin, authenticateToken } from "../middlewares/validationToken-middleware";
+import { createRating, deleteRating, getRatingByIdProduct } from "../controllers/rating-controller";
 import { Router } from "express";
 import { validateBodyCreateRating } from "../middlewares/rating-validation";
 
@@ -12,6 +12,6 @@ ratingRouter
     .get("/", getRatingByIdProduct)
     .post("/:id", validateBodyCreateRating, authenticateToken, createRating)
     //admin
-    .delete("/:id")
+    .delete("/:id", authenticateToken, authenticateRoleAdmin, deleteRating)
 
 export { ratingRouter };

@@ -4,6 +4,10 @@ async function getRatingByIdProduct(id: number) {
     return await prisma.reviews.findMany({ where: { product_id: id } });
 };
 
+async function getRatingById(id: number) {
+    return await prisma.reviews.findUnique({ where: { id } });
+};
+
 async function createRating(id: number, name: string, text: string, score: number, user_id: number) {
     return await prisma.reviews.create({
         data: {
@@ -16,7 +20,13 @@ async function createRating(id: number, name: string, text: string, score: numbe
     })
 };
 
+async function deleteRating(id: number) {
+    return await prisma.reviews.delete({ where: { id } });
+};
+
 export const ratingRepository = {
     getRatingByIdProduct,
-    createRating
+    createRating,
+    deleteRating,
+    getRatingById
 };

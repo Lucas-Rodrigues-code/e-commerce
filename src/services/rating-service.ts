@@ -14,7 +14,14 @@ async function createRating(id: number, name: string, text: string, score: numbe
     return await ratingRepository.createRating(id, name, text, score, user_id);
 };
 
+async function deleteRating(id: number) {
+    const existProduct = await ratingRepository.getRatingById(id);
+    if (!existProduct) throw notFoundError();
+    return await ratingRepository.deleteRating(id);
+};
+
 export const ratingService = {
     getRatingByIdProduct,
-    createRating
+    createRating,
+    deleteRating
 };
