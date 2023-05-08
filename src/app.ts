@@ -1,7 +1,6 @@
 import express, { json } from "express";
 import cors from "cors";
-import { userRouter, clientRouter, categoriesRouter, productsRouter } from "./routers";
-
+import { userRouter, clientRouter, categoriesRouter, productsRouter, ratingRouter } from "./routers";
 
 const app = express();
 app
@@ -12,5 +11,6 @@ app
     .use("/clients", clientRouter)
     .use("/categories", categoriesRouter)
     .use("/products", productsRouter)
+    .use("/rating", ratingRouter)
 
 export default app;

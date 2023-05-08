@@ -15,4 +15,7 @@ productsRouter
     .get("/search/:search", getProductByName)
     .get("/:id", getProductById)
 
+    //rating
+    .get("/:id/rating")
+
 export { productsRouter };
