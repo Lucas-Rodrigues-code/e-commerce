@@ -16,3 +16,9 @@ export async function getRatingByIdProduct(req: Request, res: Response) {
     const id = parseInt(req.query.product.toString());
     handleRequest(ratingService.getRatingByIdProduct(id), res, 200);
 };
+
+export async function createRating(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
+    const { name, text, score, user_id } = req.body;
+    handleRequest(ratingService.createRating(id, name, text, score, user_id), res, 201);
+};
