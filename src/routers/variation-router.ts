@@ -1,4 +1,8 @@
-import { getVariationByIdProduct } from "../controllers/variation-controller";
+import { validateBodyCreateValidation } from "../middlewares/variation-validation";
+import {
+  createVariation,
+  getVariationByIdProduct,
+} from "../controllers/variation-controller";
 import {
   authenticateRoleAdmin,
   authenticateToken,
@@ -10,9 +14,9 @@ const variationRouter = Router();
 variationRouter
 
   .get("/", getVariationByIdProduct)
-  .post("/:id")
+  .get("/:id")
   //admin
-  .post("/")
+  .post("/:id", validateBodyCreateValidation, createVariation)
   .put("/:id")
   .delete("/:id");
 
