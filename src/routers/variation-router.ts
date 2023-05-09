@@ -1,8 +1,9 @@
-import { validateBodyCreateValidation } from "../middlewares/variation-validation";
+import { validateBodyCreateValidation, validateBodyUpdateValidation } from "../middlewares/variation-validation";
 import {
   createVariation,
   getVariationById,
   getVariationByIdProduct,
+  updateVariation,
 } from "../controllers/variation-controller";
 import {
   authenticateRoleAdmin,
@@ -18,7 +19,7 @@ variationRouter
   .get("/:id", getVariationById)
   //admin
   .post("/:id", validateBodyCreateValidation, createVariation)
-  .put("/:id")
+  .put("/:id",validateBodyUpdateValidation, updateVariation)
   .delete("/:id");
 
 export { variationRouter };

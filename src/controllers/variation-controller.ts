@@ -1,7 +1,11 @@
 import { Variation } from "../protocols";
 import { variationService } from "../services/variation-service";
 import { Request, Response } from "express";
-async function handleRequest(promise: Promise<any>,res: Response, successCode: number) {
+async function handleRequest(
+  promise: Promise<any>,
+  res: Response,
+  successCode: number
+) {
   try {
     const data = await promise;
     res.status(successCode).send(data);
@@ -22,9 +26,15 @@ export async function createVariation(req: Request, res: Response) {
   const id = parseInt(req.params.id);
   const body: Variation = req.body;
   handleRequest(variationService.createVariation(id, body), res, 201);
-};
+}
 
 export async function getVariationById(req: Request, res: Response) {
-    const id = parseInt(req.params.id);
-    handleRequest(variationService.getVariationById(id), res, 200);
-  };
+  const id = parseInt(req.params.id);
+  handleRequest(variationService.getVariationById(id), res, 200);
+}
+
+export async function updateVariation(req: Request, res: Response) {
+  const id = parseInt(req.params.id);
+  const body: Variation = req.body;
+  handleRequest(variationService.updateVariation(id, body), res, 200);
+}

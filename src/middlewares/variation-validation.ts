@@ -1,4 +1,4 @@
-import { createVariationSchema } from "../schemas/variation-schema";
+import { createVariationSchema, updateVariationSchema } from "../schemas/variation-schema";
 import { Request, Response, NextFunction } from "express";
 
 export function validateBodyCreateValidation(req: Request, res: Response, next: NextFunction) {
@@ -13,7 +13,7 @@ export function validateBodyCreateValidation(req: Request, res: Response, next: 
 }
 
 export function validateBodyUpdateValidation(req: Request, res: Response, next: NextFunction) {
-    const { error } = createVariationSchema.validate(req.body, {
+    const { error } = updateVariationSchema.validate(req.body, {
       abortEarly: false,
     });
     if (error) {

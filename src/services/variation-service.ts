@@ -21,8 +21,21 @@ export async function getVariationById(id: number) {
   return variation;
 }
 
+export async function updateVariation(id: number, params: Variation) {
+  if (params.code) {
+    const variationCodeexist = await variationRepository.findVariationByCode(
+      params.code
+    );
+    if (variationCodeexist)
+      throw new Error("This code of variation already exist!");
+  }
+
+  return await variationRepository.updateVariation(id, params);
+}
+
 export const variationService = {
   getVariationByIdProduct,
   createVariation,
   getVariationById,
+  updateVariation,
 };
