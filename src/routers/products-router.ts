@@ -15,6 +15,9 @@ productsRouter
     .get("/search/:search", getProductByName)
     .get("/:id", getProductById)
 
+    // variacoes
+    .get("/:id/variações")
+
     //rating
     .get("/:id/rating")
 
