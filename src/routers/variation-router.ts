@@ -1,6 +1,10 @@
-import { validateBodyCreateValidation, validateBodyUpdateValidation } from "../middlewares/variation-validation";
+import {
+  validateBodyCreateValidation,
+  validateBodyUpdateValidation,
+} from "../middlewares/variation-validation";
 import {
   createVariation,
+  deleteVariation,
   getVariationById,
   getVariationByIdProduct,
   updateVariation,
@@ -18,8 +22,8 @@ variationRouter
   .get("/", getVariationByIdProduct)
   .get("/:id", getVariationById)
   //admin
-  .post("/:id", validateBodyCreateValidation, createVariation)
-  .put("/:id",validateBodyUpdateValidation, updateVariation)
-  .delete("/:id");
+  .post("/:id",authenticateToken,authenticateRoleAdmin, validateBodyCreateValidation, createVariation)
+  .put("/:id",authenticateToken, authenticateRoleAdmin,validateBodyUpdateValidation, updateVariation)
+  .delete("/:id",authenticateToken,authenticateRoleAdmin, deleteVariation);
 
 export { variationRouter };

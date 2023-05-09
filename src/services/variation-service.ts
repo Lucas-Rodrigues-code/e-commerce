@@ -33,9 +33,16 @@ export async function updateVariation(id: number, params: Variation) {
   return await variationRepository.updateVariation(id, params);
 }
 
+export async function deleteVariation(id: number) {
+  const variation = await variationRepository.getVariationById(id);
+  if (!variation) throw notFoundError();
+  return await variationRepository.deleteVariation(id);
+}
+
 export const variationService = {
   getVariationByIdProduct,
   createVariation,
   getVariationById,
   updateVariation,
+  deleteVariation,
 };

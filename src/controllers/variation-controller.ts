@@ -38,3 +38,9 @@ export async function updateVariation(req: Request, res: Response) {
   const body: Variation = req.body;
   handleRequest(variationService.updateVariation(id, body), res, 200);
 }
+
+export async function deleteVariation(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
+    handleRequest(variationService.deleteVariation(id), res, 200);
+  }
+  

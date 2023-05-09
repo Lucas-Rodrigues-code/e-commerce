@@ -54,12 +54,17 @@ export async function updateVariation(id: number, params: Variation) {
       blocked_quantity: params.blocked_quantity,
     },
   });
-}
+};
+
+export async function deleteVariation(id: number) {
+  return await prisma.variations.delete({ where: { id } });
+};
 
 export const variationRepository = {
   getVariationByIdProduct,
   createVariation,
   findVariationByCode,
   getVariationById,
-  updateVariation
+  updateVariation,
+  deleteVariation,
 };
