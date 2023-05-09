@@ -7,6 +7,7 @@ import {
   productsRouter,
   ratingRouter,
   variationRouter,
+  orderRouter,
 } from "./routers";
 
 const app = express();
@@ -19,6 +20,7 @@ app
   .use("/categories", categoriesRouter)
   .use("/products", productsRouter)
   .use("/rating", ratingRouter)
-  .use("/variations", variationRouter);
+  .use("/variations", variationRouter)
+  .use("/orders", orderRouter);
 
 export default app;
