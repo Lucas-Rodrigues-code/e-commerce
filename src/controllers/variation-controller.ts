@@ -22,4 +22,9 @@ export async function createVariation(req: Request, res: Response) {
   const id = parseInt(req.params.id);
   const body: Variation = req.body;
   handleRequest(variationService.createVariation(id, body), res, 201);
-}
+};
+
+export async function getVariationById(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
+    handleRequest(variationService.getVariationById(id), res, 200);
+  };

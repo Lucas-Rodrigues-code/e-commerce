@@ -30,10 +30,15 @@ export async function createVariation(id: number, params: Variation) {
 
 export async function findVariationByCode(code: string) {
   return await prisma.variations.findUnique({ where: { code } });
+}
+
+export async function getVariationById(id: number) {
+  return await prisma.variations.findUnique({ where: { id } });
 };
 
 export const variationRepository = {
   getVariationByIdProduct,
   createVariation,
   findVariationByCode,
+  getVariationById,
 };

@@ -1,6 +1,7 @@
 import { validateBodyCreateValidation } from "../middlewares/variation-validation";
 import {
   createVariation,
+  getVariationById,
   getVariationByIdProduct,
 } from "../controllers/variation-controller";
 import {
@@ -14,7 +15,7 @@ const variationRouter = Router();
 variationRouter
 
   .get("/", getVariationByIdProduct)
-  .get("/:id")
+  .get("/:id", getVariationById)
   //admin
   .post("/:id", validateBodyCreateValidation, createVariation)
   .put("/:id")

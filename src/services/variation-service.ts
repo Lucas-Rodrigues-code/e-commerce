@@ -1,3 +1,4 @@
+import { notFoundError } from "../errors/not-found-error";
 import { Variation } from "../protocols";
 import { variationRepository } from "../repositories/variation-repository";
 
@@ -14,7 +15,14 @@ export async function createVariation(id: number, params: Variation) {
   return await variationRepository.createVariation(id, params);
 }
 
+export async function getVariationById(id: number) {
+  const variation = await variationRepository.getVariationById(id);
+  if (!variation) throw notFoundError();
+  return variation;
+}
+
 export const variationService = {
   getVariationByIdProduct,
   createVariation,
+  getVariationById,
 };
