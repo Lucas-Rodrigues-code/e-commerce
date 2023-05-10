@@ -1,3 +1,4 @@
+import { getAllOrders, getOrderById } from "../controllers/order-controller";
 import {
   authenticateRoleAdmin,
   authenticateToken,
@@ -7,12 +8,12 @@ import { Router } from "express";
 const orderRouter = Router();
 
 orderRouter
-  .all("/*", authenticateToken)
+  .all("/*",)
 
   // ADMIN
-  .get("/admin")
-  .get("/admin/:id")
-  .delete("/admin/:id")
+  .get("/admin", getAllOrders)
+  .get("/admin/:id", getOrderById)
+  .delete("/admin/:id",)
   // -- carrinho
   .get("/admin/:id/cart")
 
