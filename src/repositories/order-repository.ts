@@ -12,8 +12,22 @@ async function deleteOrder(id: number) {
     return await prisma.order.delete({ where: { id } });
 };
 
+async function getCartByIdOrder(id: number) {
+    return await prisma.cart.findFirst({
+        where: { order_id: id }
+    })
+};
+
+async function getAllOrderClient(id: number) {
+    return await prisma.order.findMany({
+        where: { client_id: id }
+    })
+};
+
 export const orderRepository = {
     getAllOrders,
     getOrderById,
-    deleteOrder
+    deleteOrder,
+    getCartByIdOrder,
+    getAllOrderClient
 };

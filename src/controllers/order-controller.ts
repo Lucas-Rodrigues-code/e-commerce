@@ -25,3 +25,14 @@ export async function deleteOrder(req: Request, res: Response) {
     const id = parseInt(req.params.id);
     handleRequest(orderService.deleteOrder(id), res, 200);
 };
+
+export async function getCartByIdOrder(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
+    handleRequest(orderService.getCartByIdOrder(id), res, 200);
+};
+
+export async function getAllOrderClient(req: Request, res: Response) {
+    const idClient = parseInt(req.query.id.toString());
+    handleRequest(orderService.getAllOrderClient(idClient), res, 200);
+};
+
