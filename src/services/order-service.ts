@@ -20,9 +20,16 @@ async function getCartByIdOrder(id: number) {
 };
 
 async function getAllOrderClient(id: number) {
-    if(!id) throw new Error("Provide a customer id")
-    const order = await orderRepository.getAllOrderClient(id);
-    if (order.length === 0) throw new Error("Not an order with that customer id")
+    if (!id) throw new Error("Provide a customer id")
+    const orders = await orderRepository.getAllOrderClient(id);
+    if (orders.length === 0) throw new Error("Not an order with that customer id")
+    return orders;
+};
+
+async function getOrderByIdClient(id: number) {
+    if (!id) throw new Error("Provide a customer id")
+    const order = await orderRepository.getOrderByIdClient(id);
+    if (!order) throw new Error("Not an order with that customer id")
     return order
 };
 
@@ -31,5 +38,6 @@ export const orderService = {
     getOrderById,
     deleteOrder,
     getCartByIdOrder,
-    getAllOrderClient
+    getAllOrderClient,
+    getOrderByIdClient
 };

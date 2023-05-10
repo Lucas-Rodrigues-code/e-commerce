@@ -36,3 +36,8 @@ export async function getAllOrderClient(req: Request, res: Response) {
     handleRequest(orderService.getAllOrderClient(idClient), res, 200);
 };
 
+export async function getOrderByIdClient(req: Request, res: Response) {
+    const idClient = parseInt(req.params.id);
+    handleRequest(orderService.getOrderByIdClient(idClient), res, 200);
+};
+

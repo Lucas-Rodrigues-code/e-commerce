@@ -24,10 +24,16 @@ async function getAllOrderClient(id: number) {
     })
 };
 
+async function getOrderByIdClient(id: number) {
+    return await prisma.order.findFirst({ where: { client_id: id } });
+};
+
+
 export const orderRepository = {
     getAllOrders,
     getOrderById,
     deleteOrder,
     getCartByIdOrder,
-    getAllOrderClient
+    getAllOrderClient,
+    getOrderByIdClient
 };
