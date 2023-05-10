@@ -1,4 +1,4 @@
-import { getAllOrders, getOrderById } from "../controllers/order-controller";
+import { deleteOrder, getAllOrders, getOrderById } from "../controllers/order-controller";
 import {
   authenticateRoleAdmin,
   authenticateToken,
@@ -13,7 +13,7 @@ orderRouter
   // ADMIN
   .get("/admin", getAllOrders)
   .get("/admin/:id", getOrderById)
-  .delete("/admin/:id",)
+  .delete("/admin/:id",deleteOrder)
   // -- carrinho
   .get("/admin/:id/cart")
 

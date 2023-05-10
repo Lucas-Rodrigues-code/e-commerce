@@ -20,3 +20,8 @@ export async function getOrderById(req: Request, res: Response) {
     const id = parseInt(req.params.id);
     handleRequest(orderService.getOrderById(id), res, 200);
 };
+
+export async function deleteOrder(req: Request, res: Response) {
+    const id = parseInt(req.params.id);
+    handleRequest(orderService.deleteOrder(id), res, 200);
+};
