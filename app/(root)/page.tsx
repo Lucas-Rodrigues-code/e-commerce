@@ -1,3 +1,10 @@
-export default function Home() {
-  return <div>Hello world </div>;
+import { UserButton } from "@clerk/nextjs";
+
+export default function SetupPage() {
+  return (
+    <div className="p-4">
+      HELLO
+      <UserButton afterSignOutUrl="/" />
+    </div>
+  );
 }
