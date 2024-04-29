@@ -3,6 +3,9 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 import { useStoreModal } from "@/hooks/use-store-modal";
 import { Modal } from "../ui/modal";
@@ -31,9 +34,19 @@ export function StoreModal() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // TODO: create store
+  const [loading, setLoading] = useState(false);
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/stores", values);
+      toast.success("Loja criada com sucesso");
+    } catch (err) {
+      console.error("[STORES_POST]", err);
+      toast.error("Erro ao criar loja");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -54,17 +67,27 @@ export function StoreModal() {
                   <FormItem>
                     <FormLabel>Nome</FormLabel>
                     <FormControl>
-                      <Input placeholder="E-Commerce" {...field} />
+                      <Input
+                        disabled={loading}
+                        placeholder="E-Commerce"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                <Button variant={"outline"} onClick={StoreModal.onClose}>
+                <Button
+                  disabled={loading}
+                  variant={"outline"}
+                  onClick={StoreModal.onClose}
+                >
                   Cancelar
                 </Button>
-                <Button type="submit">Continuar</Button>
+                <Button disabled={loading} type="submit">
+                  Continuar
+                </Button>
               </div>
             </form>
           </Form>
