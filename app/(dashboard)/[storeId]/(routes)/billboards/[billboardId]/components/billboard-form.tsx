@@ -1,7 +1,7 @@
 "use client";
 
 import * as z from "zod";
-import { Store } from "@prisma/client";
+import { Billboard, Store } from "@prisma/client";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 
-import { Heading } from "./heading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -25,18 +24,21 @@ import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/modals/alert-modal";
 import { ApiAlert } from "@/components/ui/api-alert";
 import { useOrigin } from "@/hooks/use-origin";
+import { Heading } from "../../../settings/components/heading";
+import ImageUpload from "@/components/ui/image-upload";
 
-interface SettingsFormProps {
-  initialData: Store;
+interface BillboardFormProps {
+  initialData: Billboard | null;
 }
 
 const formSchema = z.object({
-  name: z.string().min(1),
+  label: z.string().min(1),
+  imageUrl: z.string().min(1),
 });
 
-type SettingsFormValues = z.infer<typeof formSchema>;
+type BillboardFormValues = z.infer<typeof formSchema>;
 
-export function SettingsForm({ initialData }: SettingsFormProps) {
+export function BillboardForm({ initialData }: BillboardFormProps) {
   const params = useParams();
   const router = useRouter();
   const origin = useOrigin();
@@ -44,17 +46,37 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const form = useForm<SettingsFormValues>({
+  const title = initialData ? "Editar" : "Nova";
+  const description = initialData
+    ? "Edita suas preferencias de banner"
+    : "Adicione um novo banner para sua loja";
+  const toastMessage = initialData
+    ? "Banner atualizado com sucesso!"
+    : "Banner criado com sucesso!";
+  const action = initialData ? "Salvar mundanças" : "Criar loja";
+
+  const form = useForm<BillboardFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: initialData || {
+      label: "",
+      imageUrl: "",
+    },
   });
 
-  const onSubmit = async (data: SettingsFormValues) => {
+  const onSubmit = async (data: BillboardFormValues) => {
     try {
       setLoading(true);
-      await axios.patch(`/api/stores/${params.storeId}`, data);
+      if (initialData) {
+        await axios.patch(
+          `/api/${params.storeId}/billboards/${params.BillboardId}`,
+          data
+        );
+      } else {
+        await axios.post(`/api/${params.storeId}/billboards`, data);
+      }
       router.refresh();
-      toast.success("Loja atualizada com sucesso!");
+      router.push(`/${params.storeId}/billboards`);
+      toast.success(toastMessage);
     } catch (err) {
       console.error("Algo deu errado");
     } finally {
@@ -65,13 +87,13 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}`);
+      await axios.delete(`/api/${params.storeId}/billboards/${params.BillboardId}`);
       router.refresh();
       router.push("/");
-      toast.success("Loja deletada com sucesso!");
+      toast.success("Banner deletado com sucesso!");
     } catch (err) {
       toast.error(
-        "Tenha certeza que você deletou todos os produtos e categorias antes de deletar a loja"
+        "Tenha certeza que você deletou todos os produtos e categorias antes de deletar a banner"
       );
     } finally {
       setLoading(false);
@@ -88,18 +110,17 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
         loading={loading}
       />
       <div className="flex items-center justify-between">
-        <Heading
-          title="Configurações"
-          description="Edita suas preferencias de loja"
-        />
-        <Button
-          disabled={loading}
-          variant="destructive"
-          size="sm"
-          onClick={() => setOpen(true)}
-        >
-          <Trash className="h-4 w-4" />
-        </Button>
+        <Heading title={title} description={description} />
+        {initialData && (
+          <Button
+            disabled={loading}
+            variant="destructive"
+            size="sm"
+            onClick={() => setOpen(true)}
+          >
+            <Trash className="h-4 w-4" />
+          </Button>
+        )}
       </div>
       <Separator />
       <Form {...form}>
@@ -107,10 +128,28 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
+          <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Backgroud image</FormLabel>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    disabled={loading}
+                    onChange={(url) => field.onChange(url)}
+                    onRemove={(url) => field.onChange("")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
-              name="name"
+              name="label"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
@@ -127,16 +166,11 @@ export function SettingsForm({ initialData }: SettingsFormProps) {
             />
           </div>
           <Button disabled={loading} className="ml-auto" type="submit">
-            Salvar mundanças
+            {action}
           </Button>
         </form>
       </Form>
       <Separator />
-      <ApiAlert
-        title="NEXT_PUBLIC_API_URL"
-        description={`${origin}/api/${params.storeId}`}
-        variant="public"
-      />
     </>
   );
 }
