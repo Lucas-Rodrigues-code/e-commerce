@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api-alert";
 import { useOrigin } from "@/hooks/use-origin";
 import { Heading } from "../../../settings/components/heading";
 import ImageUpload from "@/components/ui/image-upload";
@@ -41,7 +40,6 @@ type BillboardFormValues = z.infer<typeof formSchema>;
 export function BillboardForm({ initialData }: BillboardFormProps) {
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -53,7 +51,7 @@ export function BillboardForm({ initialData }: BillboardFormProps) {
   const toastMessage = initialData
     ? "Banner atualizado com sucesso!"
     : "Banner criado com sucesso!";
-  const action = initialData ? "Salvar mundanças" : "Criar loja";
+  const action = initialData ? "Salvar mundanças" : "Criar Banner";
 
   const form = useForm<BillboardFormValues>({
     resolver: zodResolver(formSchema),
@@ -87,9 +85,9 @@ export function BillboardForm({ initialData }: BillboardFormProps) {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/billboards/${params.BillboardId}`);
+      await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
       router.refresh();
-      router.push("/");
+      router.push(`/${params.storeId}/billboards`);
       toast.success("Banner deletado com sucesso!");
     } catch (err) {
       toast.error(
@@ -170,7 +168,6 @@ export function BillboardForm({ initialData }: BillboardFormProps) {
           </Button>
         </form>
       </Form>
-      <Separator />
     </>
   );
 }
