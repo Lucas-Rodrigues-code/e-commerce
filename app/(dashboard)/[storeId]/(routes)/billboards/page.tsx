@@ -1,12 +1,15 @@
 import { format } from "date-fns";
 import prismadb from "@/lib/prismadb";
 import { BillboardClient } from "./components/client";
+import { FC } from "react";
 
 interface BillboardsPageProps {
   storeId: string;
 }
 
-export default async function BillboardsPage({ storeId }: BillboardsPageProps) {
+const BillboardsPage: FC<BillboardsPageProps> = async ({
+  storeId,
+}: BillboardsPageProps) => {
   const billboards = await prismadb.billboard.findMany({
     where: {
       storeId: storeId,
@@ -29,4 +32,6 @@ export default async function BillboardsPage({ storeId }: BillboardsPageProps) {
       </div>
     </div>
   );
-}
+};
+
+export default BillboardsPage;
