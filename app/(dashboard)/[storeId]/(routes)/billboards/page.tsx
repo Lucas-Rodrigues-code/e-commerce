@@ -2,10 +2,14 @@ import { format } from "date-fns";
 import prismadb from "@/lib/prismadb";
 import { BillboardClient } from "./components/client";
 
-export default async function BillboardsPage(params: { storeId: string }) {
+interface BillboardsPageProps {
+  storeId: string;
+}
+
+export default async function BillboardsPage({ storeId }: BillboardsPageProps) {
   const billboards = await prismadb.billboard.findMany({
     where: {
-      storeId: params.storeId,
+      storeId: storeId,
     },
     orderBy: {
       createdAt: "desc",
