@@ -1,18 +1,18 @@
 import { format } from "date-fns";
 import prismadb from "@/lib/prismadb";
 import { BillboardClient } from "./components/client";
-import { FC } from "react";
 
 interface BillboardsPageProps {
-  storeId: string;
+  params: {
+    storeId: string;
+  
+  };
 }
 
-const BillboardsPage: FC<BillboardsPageProps> = async ({
-  storeId,
-}: BillboardsPageProps) => {
+const BillboardsPage: React.FC<BillboardsPageProps> = async ({ params }) => {
   const billboards = await prismadb.billboard.findMany({
     where: {
-      storeId: storeId,
+      storeId: params.storeId,
     },
     orderBy: {
       createdAt: "desc",
