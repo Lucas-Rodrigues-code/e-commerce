@@ -12,13 +12,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BillboardColumn } from "./columns";
+import { ProductColumn } from "./columns";
 
 import { Button } from "@/components/ui/button";
 import { AlertModal } from "@/components/modals/alert-modal";
 
 interface CellActionProps {
-  data: BillboardColumn;
+  data: ProductColumn;
 }
 export function CellAction({ data }: CellActionProps) {
   const router = useRouter();
@@ -35,14 +35,12 @@ export function CellAction({ data }: CellActionProps) {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
+      await axios.delete(`/api/${params.storeId}/products/${data.id}`);
       router.refresh();
-      router.push(`/${params.storeId}/billboards`);
-      toast.success("Banner deletado com sucesso!");
+      router.push(`/${params.storeId}/products`);
+      toast.success("Produto deletado com sucesso!");
     } catch (err) {
-      toast.error(
-        "Tenha certeza que você deletou todos os produtos e categorias antes de deletar a banner"
-      );
+      toast.error("Algo deu errado !");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -71,7 +69,7 @@ export function CellAction({ data }: CellActionProps) {
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() =>
-              router.push(`/${params.storeId}/billboards/${data.id}`)
+              router.push(`/${params.storeId}/products/${data.id}`)
             }
           >
             <Edit className="h-4 w-4 mr-2" />
