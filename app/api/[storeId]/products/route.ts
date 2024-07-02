@@ -110,6 +110,7 @@ export async function GET(
         colorId,
         sizeId,
         isFeatured: isFeatured ? true : undefined,
+        isArchived: false,
       },
       include: {
         images: true,
