@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# E-commerce
 
-## Getting Started
+Este projeto é uma loja virtual que permite aos usuários navegar por diferentes categorias de produtos, adicionar itens ao carrinho e realizar compras. A aplicação foi desenvolvida utilizando uma série de tecnologias modernas para garantir uma experiência de usuário fluida e eficiente.
 
-First, run the development server:
+## Como levantar a aplicação
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Siga os passos abaixo para configurar e executar a aplicação localmente:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. **Clone o repositório**: Baixe o projeto para a sua máquina local.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+    ```bash
+    git clone <URL_DO_REPOSITÓRIO>
+    cd <NOME_DO_REPOSITÓRIO>
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+2. **Instale as dependências**:
 
-## Learn More
+    ```bash
+    npm install
+    ```
 
-To learn more about Next.js, take a look at the following resources:x
+3. **Configure as variáveis de ambiente**:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   Copie o arquivo de exemplo de variáveis de ambiente e preencha com suas configurações:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    ```bash
+    cp .env.example .env
+    ```
 
-## Deploy on Vercel
+   Edite o arquivo `.env` e preencha as variáveis conforme necessário.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Prepare o banco de dados**:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   Execute os comandos do Prisma para gerar e migrar o banco de dados:
+
+    ```bash
+    npx prisma migrate dev
+    ```
+
+5. **Inicie o servidor de desenvolvimento**:
+
+    ```bash
+    npm run dev
+    ```
+
+6. **Acesse a aplicação**:
+
+   Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o resultado.
+
+## Tecnologias Utilizadas
+
+Este projeto utiliza as seguintes tecnologias:
+
+- **Next.js**: Framework React para desenvolvimento de aplicações web.
+- **Tailwind CSS**: Framework de CSS para estilização.
+- **Prisma**: ORM para acesso ao banco de dados.
+- **TypeScript**: Linguagem de programação que adiciona tipagem estática ao JavaScript.
+- **Clerk**: Solução para autenticação e gerenciamento de usuários.
+- **React**: Biblioteca para construção da interface de usuário.
+- **MySQL**: Sistema de gerenciamento de banco de dados relacional.
+
